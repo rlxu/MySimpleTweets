@@ -1,7 +1,12 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +36,8 @@ public class TimelineActivity extends AppCompatActivity {
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
     private SwipeRefreshLayout swipeContainer;
+    TweetDataSourceFactory factory;
+    LiveData<PagedList<Tweet>> tweetsNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +55,23 @@ public class TimelineActivity extends AppCompatActivity {
         // init the ArrayList (data source)
         tweets = new ArrayList<>();
         // construct the adapter from this data source
-        tweetAdapter = new TweetAdapter(tweets);
+        tweetAdapter = new TweetAdapter();
+        // Initial page size to fetch can also be configured here too
+        PagedList.Config config = new PagedList.Config.Builder().setPageSize(20).build();
+
+        // Pass in dependency
+        factory = new TweetDataSourceFactory(TwitterApp.getRestClient(this));
+
+        tweetsNew = new LivePagedListBuilder(factory, config).build();
+
+        tweetsNew.observe(this, new Observer<PagedList<Tweet>>() {
+            @Override
+            public void onChanged(@Nullable PagedList<Tweet> tweets) {
+                tweetAdapter.submitList(tweets);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
         // RecyclerView setup (layout manager, use adapter)
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(tweetAdapter);
@@ -63,6 +86,7 @@ public class TimelineActivity extends AppCompatActivity {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
+                factory.postLiveData.getValue().invalidate();
                 fetchTimelineAsync(0);
             }
         });

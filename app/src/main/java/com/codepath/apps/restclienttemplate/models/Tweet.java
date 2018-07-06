@@ -2,12 +2,14 @@ package com.codepath.apps.restclienttemplate.models;
 
 import android.text.format.DateUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 @Parcel
@@ -33,6 +35,15 @@ public class Tweet {
         return tweet;
     }
 
+    // deserialize all the JSON objects
+    public static ArrayList<Tweet> fromJSONArray(JSONArray jsonArray) throws JSONException {
+        ArrayList<Tweet> allTweets = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            allTweets.add(Tweet.fromJSON(jsonArray.getJSONObject(i)));
+        }
+        return allTweets;
+    }
+
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
     public String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -51,4 +62,5 @@ public class Tweet {
 
         return relativeDate;
     }
+
 }
