@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="5dp"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
     <ImageView
         android:id="@+id/ivProfileImage"
@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/tvBody"
+        android:textStyle="bold"
+        android:layout_marginRight="5dp"
         android:text="TextView" />
 
     <TextView
@@ -29,6 +31,7 @@
         android:layout_below="@+id/tvUserName"
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
+        android:layout_marginBottom="5dp"
         android:text="TextView" />
 
     <TextView
@@ -37,5 +40,64 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/btFavorite"
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_toEndOf="@+id/tvRetweets"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_heart" />
+
+    <Button
+        android:id="@+id/btRetweet"
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_toEndOf="@+id/tvComments"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_retweet" />
+
+    <Button
+        android:id="@+id/btReply"
+        android:layout_width="45dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_alignStart="@+id/tvUserName"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_reply" />
+
+    <TextView
+        android:id="@+id/tvComments"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvFavs"
+        android:layout_toEndOf="@+id/btReply" />
+
+    <TextView
+        android:id="@+id/tvRetweets"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvComments"
+        android:layout_toEndOf="@+id/btRetweet"
+        android:text="1234" />
+
+    <TextView
+        android:id="@+id/tvFavs"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="58dp"
+        android:layout_toEndOf="@+id/btFavorite"
+        android:text="1234" />
+
+    <TextView
+        android:id="@+id/tvHandle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/tvUserName"
         android:text="TextView" />
 </RelativeLayout>

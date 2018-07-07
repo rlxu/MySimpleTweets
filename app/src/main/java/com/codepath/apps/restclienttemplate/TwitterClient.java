@@ -48,7 +48,7 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		params.put("since_id", 1);
-		params.put("tweet_mode", "extended");
+		// params.put("tweet_mode", "extended");
 		client.get(apiUrl, params, handler);
 	}
 
@@ -69,4 +69,27 @@ public class TwitterClient extends OAuthBaseClient {
         client.post(apiUrl, params, handler);
     }
 
+    public void favTweet(Long tweetId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("favorites/create.json");
+        RequestParams params = new RequestParams();
+        params.put("id", tweetId);
+        client.post(apiUrl, params, handler);
+    }
+
+    public void unFavTweet(Long tweetId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("favorites/destroy.json");
+        RequestParams params = new RequestParams();
+        params.put("id", tweetId);
+        client.post(apiUrl, params, handler);
+    }
+
+    public void retweetTweet(Long tweetId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("statuses/retweet/" + Long.toString(tweetId) + ".json");
+        client.post(apiUrl, handler);
+    }
+
+    public void unRetweetTweet(Long tweetId, AsyncHttpResponseHandler handler) {
+        String apiUrl = getApiUrl("statuses/unretweet/" + Long.toString(tweetId) + ".json");
+        client.post(apiUrl, handler);
+    }
 }
